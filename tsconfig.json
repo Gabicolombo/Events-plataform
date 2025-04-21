@@ -1,11 +1,12 @@
 {
   "compilerOptions": {
-    "module": "ESNext",
+    "target": "ES2020",               // ou ES2017+, tem que ser 2017 ou mais
+    "module": "CommonJS",             // CommonJS continua
     "moduleResolution": "node",
-    "target": "ESNext",
-    "baseUrl": "./src",
-    "paths": {
-      "*": ["*"]
-    }
-  }
+    "outDir": "dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
 }
