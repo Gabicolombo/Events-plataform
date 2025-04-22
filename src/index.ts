@@ -1,21 +1,36 @@
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer} from '@apollo/server/standalone';
-import { typeDefs } from './typedefs.js';
-import { resolvers } from './resolvers.js';
+import { typeDefs } from './typedefs';
+import { resolvers } from './resolvers';
 import * as dotenv from 'dotenv';
-import connectMongoDb from './database/mongodb.js';
+import connectMongoDb from './database/mongodb';
+import jwt from 'jsonwebtoken';
 
 dotenv.config();
 
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
 });
 
-await connectMongoDb();
+(async () => {
+  await connectMongoDb();
 
-const { url } = await startStandaloneServer(server);
-console.log(`
-  Server is running! 
-  Query at ${url}`
-);
+  const { url } = await startStandaloneServer(server, {
+    context: async({ req }) => {
+      const token = req.headers.authorization || '';
+      if (!token) return { user: null };
+      try{
+        const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.SECRET as string);
+        return { user: decoded };
+      }catch(err){
+        console.error(err);
+        return { user: null };
+      }
+    }
+  });
+  console.log(`
+    Server is running! 
+    Query at ${url}`
+  );
+})();
