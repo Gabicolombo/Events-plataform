@@ -1,4 +1,5 @@
 import User from './models/users';
+import Event from './models/events';
 import { generateToken } from './auth/generateToken';
 import * as bcrypt from 'bcryptjs';
 
@@ -46,8 +47,21 @@ export const resolvers = {
       }
     },
 
-    // createEvent: async(_:unknown, { input }) => {
-
-    // }
+    createEvent: async(_:unknown,{ input }: any, context: any) => {
+      try{
+        const userId = context.user?.id;
+        if(!userId) {
+          console.log("User not authenticated");
+          return false;
+        }
+        input.owner = userId;
+        const newEvent = new Event(input);
+        await newEvent.save();
+        return true;
+      }catch(err){
+        console.error(err);
+        return false;
+      }
+    }
   }
 }
