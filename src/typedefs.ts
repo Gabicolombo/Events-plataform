@@ -31,11 +31,25 @@ export const typeDefs = gql`
     title: String!
     description: String
     capacity: Int
-    owner: ID!
+    participants: [ID!]!
+    date: String!
+    location: String!
+    status: String!
+  }
+
+  input LoginInput {
+    email: String!
+    password: String!
+  }
+
+  type LoginResponse {
+    token: String!
+    logged: Boolean!
   }
 
   type Mutation { 
     createEvent(input: CreateEventInput!): Boolean
     createUser(input: CreateUserInput!): Boolean
+    login(input: LoginInput!): LoginResponse
   }
 `;
