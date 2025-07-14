@@ -1,6 +1,6 @@
-# 📅 Eventify
+# 📅 Events-plataform
 
-**Eventify** is a GraphQL-based API for user authentication and event management. Users can register, log in, and create events with participants from the platform. When an event is created, a message is sent to RabbitMQ, and a consumer processes that message to send email notifications to the event participants.
+**Events-plataform** is a GraphQL-based API for user authentication and event management. Users can register, log in, and create events with participants from the platform. When an event is created, a message is sent to RabbitMQ, and a consumer processes that message to send email notifications to the event participants.
 
 ## 🚀 Features
 
