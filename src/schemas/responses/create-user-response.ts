@@ -5,6 +5,6 @@ export class CreateUserResponse {
   @Field()
   status!: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   message?: string;
 }

@@ -18,11 +18,11 @@ export class CreateEventResolver {
         console.log("User not authenticated");
         return false;
       }
-      const eventData = {
+      const newEventData  = {
         ...input,
         owner: userId
       };
-      const newEvent = new Event(eventData);
+      const newEvent = new Event(newEventData);
       await newEvent.save();
       console.log("Event created successfully");
       // Notify the user about the event creation

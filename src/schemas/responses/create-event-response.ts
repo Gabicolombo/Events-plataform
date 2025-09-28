@@ -5,6 +5,6 @@ export class CreateEventResponse {
   @Field()
   status!: boolean;
 
-  @Field()
+  @Field({ nullable: true })
   message?: string;
 }

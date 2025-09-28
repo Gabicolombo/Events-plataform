@@ -22,7 +22,7 @@ export class LoginResolver {
 
     if (!passwordIsValid) {
       console.log("Invalid password");
-      return { token: "", logged: false };;
+      return { token: "", logged: false };
     }
     const token = generateToken(user);
     console.log("User logged in successfully");
