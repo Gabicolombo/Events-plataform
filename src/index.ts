@@ -1,20 +1,35 @@
+import "reflect-metadata";
 import { ApolloServer } from '@apollo/server';
 import { startStandaloneServer} from '@apollo/server/standalone';
-import { typeDefs } from './typedefs';
-import { resolvers } from './resolvers';
 import * as dotenv from 'dotenv';
 import connectMongoDb from './database/mongodb';
 import jwt from 'jsonwebtoken';
 
+import { buildSchema } from "type-graphql";
+import { LoginResolver } from './mutations/login';
+import { EventResolver } from './queries/event';
+import { CreateEventResolver } from './mutations/create-event';
+import { CreateUserResolver } from './mutations/create-user';
+
 dotenv.config();
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-});
+export const schema = async () => 
+  await buildSchema({
+    resolvers: [
+      LoginResolver,
+      EventResolver,
+      CreateEventResolver,
+      CreateUserResolver
+    ],
+  });
+
+let server: ApolloServer;
 
 (async () => {
   await connectMongoDb();
+
+  const builtSchema = await schema();
+  server = new ApolloServer({ schema: builtSchema });
 
   const { url } = await startStandaloneServer(server, {
     context: async({ req }) => {
