@@ -1,9 +1,12 @@
 import mongoose from 'mongoose';
 
-import { ObjectType, Field } from "type-graphql";
+import { ObjectType, Field, ID } from "type-graphql";
 
 @ObjectType()
 export class UserType {
+  @Field(() => ID)
+  id!: string;
+
   @Field()
   name!: string;
 

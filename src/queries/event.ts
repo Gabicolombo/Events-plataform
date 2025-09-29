@@ -14,8 +14,11 @@ export class EventResolver {
       return [];
     }
 
-    const events= await Event.find({ owner: userId }).populate('owner');
-
+    const events = await Event.find({ owner: userId }).populate('owner');
+    if (!events || events.length === 0) {
+      console.log("No events found");
+      return [];
+    }
     return [{ owner: events[0].owner, events: events }];
   }
 }
