@@ -1,8 +1,40 @@
 import mongoose from 'mongoose';
+import { ObjectType, Field, ID } from "type-graphql";
+import { UserType } from './users';
+
+@ObjectType()
+export class EventType {
+  @Field(() => ID)
+  id!: string;
+
+  @Field()
+  title!: string;
+
+  @Field()
+  owner!: UserType;
+
+  @Field({ nullable: true })
+  description?: string;
+
+  @Field({ nullable: true })
+  capacity?: number;
+
+  @Field(() => [String])
+  participants!: string[];
+
+  @Field()
+  date!: string;
+
+  @Field()
+  location!: string;
+
+  @Field()
+  status!: string;
+}
 
 const EventSchema = new mongoose.Schema({
   title: {type: String, required: true},
-  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+  owner: {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
   description: { type: String},
   capacity: { type: Number},
   participants: [{ type: mongoose.Schema.Types.String, ref: 'User'}],
